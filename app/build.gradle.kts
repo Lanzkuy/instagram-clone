@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -77,12 +78,13 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
-    implementation(libs.navigation.compose)
-    implementation(libs.bundles.dagger.hilt)
     implementation(libs.legacy.support.v4)
+    implementation(libs.bundles.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
+    implementation(libs.navigation.compose)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
-    ksp(libs.dagger.hilt.compiler)
+    implementation(platform(libs.firebase.bom))
     testImplementation(libs.junit)
     androidTestImplementation(libs.test.ext)
     androidTestImplementation(libs.test.espresso.core)

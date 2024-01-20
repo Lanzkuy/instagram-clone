@@ -67,7 +67,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .size(90.dp),
-                    painter = painterResource(R.drawable.img_instagram_text),
+                    painter = painterResource(R.drawable.img_instagram_text_black),
                     contentDescription = stringResource(R.string.content_description),
                 )
                 Spacer(

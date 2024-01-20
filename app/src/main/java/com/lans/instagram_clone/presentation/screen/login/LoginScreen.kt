@@ -2,6 +2,7 @@ package com.lans.instagram_clone.presentation.screen.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +34,8 @@ import com.lans.instagram_clone.presentation.component.LoadingButton
 import com.lans.instagram_clone.presentation.component.ValidableTextField
 import com.lans.instagram_clone.presentation.navigation.Route
 import com.lans.instagram_clone.presentation.theme.RoundedSmall
+import com.lans.instagram_clone.presentation.theme.Tertiary
+import com.lans.instagram_clone.presentation.theme.TertiaryVariant
 
 @Composable
 fun LoginScreen(
@@ -55,7 +57,11 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(90.dp),
-                painter = painterResource(R.drawable.img_instagram_text),
+                painter = if (isSystemInDarkTheme()) {
+                    painterResource(R.drawable.img_instagram_text_white)
+                } else {
+                    painterResource(R.drawable.img_instagram_text_black)
+                },
                 contentDescription = stringResource(R.string.content_description),
             )
             Spacer(
@@ -103,6 +109,11 @@ fun LoginScreen(
 
                         },
                     text = stringResource(R.string.get_help_logging_in),
+                    color = if (isSystemInDarkTheme()) {
+                        TertiaryVariant
+                    } else {
+                        Tertiary
+                    },
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -144,6 +155,11 @@ fun LoginScreen(
                             navController.navigate(Route.RegisterScreen.route)
                         },
                     text = stringResource(R.string.register),
+                    color = if (isSystemInDarkTheme()) {
+                        TertiaryVariant
+                    } else {
+                        Tertiary
+                    },
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                 )

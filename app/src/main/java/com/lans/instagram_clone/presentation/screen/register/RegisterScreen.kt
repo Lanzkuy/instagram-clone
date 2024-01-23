@@ -2,6 +2,7 @@ package com.lans.instagram_clone.presentation.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -38,6 +41,8 @@ import androidx.navigation.compose.rememberNavController
 import com.lans.instagram_clone.R
 import com.lans.instagram_clone.presentation.component.ValidableTextField
 import com.lans.instagram_clone.presentation.navigation.Route
+import com.lans.instagram_clone.presentation.theme.Tertiary
+import com.lans.instagram_clone.presentation.theme.TertiaryVariant
 
 @Composable
 fun RegisterScreen(
@@ -50,7 +55,11 @@ fun RegisterScreen(
     val username = state.username
     val password = state.password
 
-    Column {
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
+    ) {
         Column(
             modifier = Modifier
                 .weight(0.92f),
@@ -135,12 +144,30 @@ fun RegisterScreen(
                         .width(280.dp),
                     text = buildAnnotatedString {
                         append(stringResource(R.string.by_signing_up) + " ")
-                        withStyle(SpanStyle(fontWeight = Bold)) {
+                        withStyle(
+                            style = SpanStyle(
+                                color = if (isSystemInDarkTheme()) {
+                                    TertiaryVariant
+                                } else {
+                                    Tertiary
+                                },
+                                fontWeight = Bold
+                            )
+                        ) {
                             append(stringResource(R.string.terms) + " ")
                             append(stringResource(R.string.data_policy) + " ")
                         }
                         append(stringResource(R.string.and) + " ")
-                        withStyle(SpanStyle(fontWeight = Bold)) {
+                        withStyle(
+                            style = SpanStyle(
+                                color = if (isSystemInDarkTheme()) {
+                                    TertiaryVariant
+                                } else {
+                                    Tertiary
+                                },
+                                fontWeight = Bold
+                            )
+                        ) {
                             append(stringResource(R.string.cookies_policy))
                         }
                     },
@@ -175,6 +202,11 @@ fun RegisterScreen(
                             navController.navigate(Route.LoginScreen.route)
                         },
                     text = stringResource(R.string.log_in),
+                    color = if (isSystemInDarkTheme()) {
+                        TertiaryVariant
+                    } else {
+                        Tertiary
+                    },
                     fontSize = 14.sp,
                     fontWeight = Bold,
                 )

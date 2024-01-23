@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.lans.instagram_clone.presentation.screen.home.HomeScreen
 import com.lans.instagram_clone.presentation.screen.login.LoginScreen
 import com.lans.instagram_clone.presentation.screen.register.RegisterScreen
 
@@ -25,6 +26,11 @@ fun Navigation(
             route = Route.RegisterScreen.route,
         ) {
             RegisterScreen(navController = navController)
+        }
+        composable(
+            route = Route.HomeScreen.route,
+        ) {
+            HomeScreen(navController = navController)
         }
     }
 }

@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -46,7 +48,11 @@ fun LoginScreen(
     val emailUsername = state.emailUsername
     val password = state.password
 
-    Column {
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
+    ) {
         Column(
             modifier = Modifier
                 .weight(0.92f),
@@ -126,7 +132,7 @@ fun LoginScreen(
                 shape = RoundedSmall,
                 isLoading = false,
                 onClick = {
-
+                    navController.navigate(Route.HomeScreen.route)
                 }
             )
         }

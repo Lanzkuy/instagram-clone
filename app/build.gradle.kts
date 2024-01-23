@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.coil.compose)
     implementation(libs.legacy.support.v4)
     implementation(libs.bundles.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)

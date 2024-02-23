@@ -83,6 +83,10 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version = "22.3.1" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx", version = "24.10.1" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage-ktx", version = "20.3.0" }
+
 
 junit = { module = "junit:junit", version.ref = "junit" }
 test-ext = { module = "androidx.test.ext:junit", version.ref = "test-ext" }

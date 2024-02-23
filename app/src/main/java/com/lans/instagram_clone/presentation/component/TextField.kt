@@ -11,7 +11,7 @@ import com.lans.instagram_clone.domain.model.InputWrapper
 @Composable
 fun ValidableTextField(
     modifier: Modifier,
-    input: InputWrapper<String>,
+    input: InputWrapper,
     label: String? = null,
     placeholder: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,

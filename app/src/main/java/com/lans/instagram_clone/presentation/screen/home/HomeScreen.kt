@@ -13,11 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.lans.instagram_clone.presentation.component.BottomNavigationBar
 import com.lans.instagram_clone.presentation.component.HomeAppBar
 import com.lans.instagram_clone.presentation.component.MyStory
@@ -27,7 +24,6 @@ import com.lans.instagram_clone.utils.bottomBorder
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val img1 =
@@ -123,13 +119,4 @@ fun HomeScreen(
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun Preview() {
-    HomeScreen(rememberNavController())
 }

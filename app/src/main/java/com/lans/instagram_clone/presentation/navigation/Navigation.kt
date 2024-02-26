@@ -20,17 +20,28 @@ fun Navigation(
         composable(
             route = Route.LoginScreen.route
         ) {
-            LoginScreen(navController = navController)
+            LoginScreen(
+                navigateToRegister = {
+                    navController.navigate(Route.RegisterScreen.route)
+                },
+                navigateToHome = {
+                    navController.navigate(Route.HomeScreen.route)
+                }
+            )
         }
         composable(
             route = Route.RegisterScreen.route,
         ) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(
+                navigateToLogin = {
+                    navController.navigateUp()
+                }
+            )
         }
         composable(
             route = Route.HomeScreen.route,
         ) {
-            HomeScreen(navController = navController)
+            HomeScreen()
         }
     }
 }

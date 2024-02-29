@@ -25,7 +25,11 @@ fun Navigation(
                     navController.navigate(Route.RegisterScreen.route)
                 },
                 navigateToHome = {
-                    navController.navigate(Route.HomeScreen.route)
+                    navController.navigate(Route.HomeScreen.route) {
+                        popUpTo(Route.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }

@@ -5,7 +5,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,7 +22,7 @@ fun HomeAppBar() {
         title = {
             Image(
                 modifier = Modifier
-                    .size(132.dp),
+                    .size(112.dp),
                 painter = if (isSystemInDarkTheme()) {
                     painterResource(R.drawable.img_instagram_text_white)
                 } else {
@@ -43,6 +45,7 @@ fun HomeAppBar() {
                     contentDescription = stringResource(R.string.content_description)
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
     )
 }

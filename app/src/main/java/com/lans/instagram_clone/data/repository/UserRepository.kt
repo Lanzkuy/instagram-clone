@@ -13,14 +13,14 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
 ): IUserRepository {
-    override fun createUser(user: User): Task<Void> {
+    override suspend fun createUser(user: User): Task<Void> {
         return firebaseFirestore
             .collection(CONSTANTS.USER_COLLECTION)
             .document(user.id)
             .set(user)
     }
 
-    override fun getUser(userId: String): Task<DocumentSnapshot> {
+    override suspend fun getUser(userId: String): Task<DocumentSnapshot> {
         return firebaseFirestore
             .document(userId)
             .get()

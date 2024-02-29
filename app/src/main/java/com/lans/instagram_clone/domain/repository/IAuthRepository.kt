@@ -7,8 +7,8 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.Flow
 
 interface IAuthRepository {
-    fun isAuthenticated(): Flow<Boolean>
-    fun loginWithEmail(email: String, password: String): Task<AuthResult>
-    fun register(email: String, password: String): Task<AuthResult>
-    fun logout(): Flow<Unit>
+    suspend fun isAuthenticated(): Flow<Boolean>
+    suspend fun loginWithEmail(email: String, password: String): Task<AuthResult>
+    suspend fun register(email: String, password: String): Task<AuthResult>
+    suspend fun logout(): Flow<Unit>
 }

@@ -6,6 +6,6 @@ import com.lans.instagram_clone.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface IUserRepository {
-    fun createUser(user: User): Task<Void>
-    fun getUser(userId: String): Task<DocumentSnapshot>
+    suspend fun createUser(user: User): Task<Void>
+    suspend fun getUser(userId: String): Task<DocumentSnapshot>
 }

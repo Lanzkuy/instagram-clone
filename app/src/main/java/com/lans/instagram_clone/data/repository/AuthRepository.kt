@@ -16,21 +16,21 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : IAuthRepository {
-    override fun isAuthenticated(): Flow<Boolean> {
+    override suspend fun isAuthenticated(): Flow<Boolean> {
         return flow {
             emit(firebaseAuth.currentUser != null)
         }
     }
 
-    override fun loginWithEmail(email: String, password: String): Task<AuthResult> {
+    override suspend fun loginWithEmail(email: String, password: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(email, password)
     }
 
-    override fun register(email: String, password: String): Task<AuthResult> {
+    override suspend fun register(email: String, password: String): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
     }
 
-    override fun logout(): Flow<Unit> {
+    override suspend fun logout(): Flow<Unit> {
         return flow {
             emit(firebaseAuth.signOut())
         }

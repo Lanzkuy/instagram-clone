@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lans.instagram_clone.R
-import com.lans.instagram_clone.presentation.component.Alert
-import com.lans.instagram_clone.presentation.component.LoadingButton
-import com.lans.instagram_clone.presentation.component.ValidableTextField
+import com.lans.instagram_clone.presentation.component.dialog.Alert
+import com.lans.instagram_clone.presentation.component.button.LoadingButton
+import com.lans.instagram_clone.presentation.component.textfield.ValidableTextField
 import com.lans.instagram_clone.presentation.theme.RoundedSmall
 import com.lans.instagram_clone.presentation.theme.Tertiary
 import com.lans.instagram_clone.presentation.theme.TertiaryVariant

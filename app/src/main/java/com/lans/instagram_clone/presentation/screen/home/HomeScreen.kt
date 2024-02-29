@@ -15,16 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.lans.instagram_clone.presentation.component.BottomNavigationBar
-import com.lans.instagram_clone.presentation.component.HomeAppBar
-import com.lans.instagram_clone.presentation.component.MyStory
-import com.lans.instagram_clone.presentation.component.PostItem
-import com.lans.instagram_clone.presentation.component.StoryItem
+import com.lans.instagram_clone.presentation.component.bottom_navigation.BottomNavigationBar
+import com.lans.instagram_clone.presentation.component.top_navigation.HomeAppBar
+import com.lans.instagram_clone.presentation.component.story.MyStory
+import com.lans.instagram_clone.presentation.component.post.PostItem
+import com.lans.instagram_clone.presentation.component.story.StoryItem
 import com.lans.instagram_clone.utils.bottomBorder
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToLikes: () -> Unit,
+    navigateToProfile: () -> Unit
 ) {
     val img1 =
         "https://yt3.googleusercontent.com/ytc/AIf8zZTiK5RvLXMDN039g8slQDcm--od1i1y6wwxqzF45g=s900-c-k-c0x00ffffff-no-rj"
@@ -35,7 +39,12 @@ fun HomeScreen(
 
     Scaffold(
         topBar = { HomeAppBar() },
-        bottomBar = { BottomNavigationBar() }
+        bottomBar = { BottomNavigationBar(
+            navigateToHome,
+            navigateToSearch,
+            navigateToLikes,
+            navigateToProfile
+        ) }
     ) { paddingValues ->
         Column(
             modifier = Modifier

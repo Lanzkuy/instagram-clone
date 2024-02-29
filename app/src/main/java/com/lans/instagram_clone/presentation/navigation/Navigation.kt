@@ -45,7 +45,20 @@ fun Navigation(
         composable(
             route = Route.HomeScreen.route,
         ) {
-            HomeScreen()
+            HomeScreen(
+                navigateToHome = {
+
+                },
+                navigateToSearch = {
+
+                },
+                navigateToLikes = {
+
+                },
+                navigateToProfile = {
+
+                }
+            )
         }
     }
 }

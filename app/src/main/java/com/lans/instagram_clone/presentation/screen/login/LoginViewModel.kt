@@ -1,5 +1,7 @@
 package com.lans.instagram_clone.presentation.screen.login
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lans.instagram_clone.data.Resource
@@ -17,8 +19,8 @@ class LoginViewModel @Inject constructor(
     private val validatorUseCase: ValidatorUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(LoginUIState())
-    val state: Flow<LoginUIState> get() = _state
+    private val _state = mutableStateOf(LoginUIState())
+    val state: State<LoginUIState> get() = _state
 
     fun onEvent(event: LoginUIEvent) {
         when (event) {
@@ -65,14 +67,6 @@ class LoginViewModel @Inject constructor(
                 )
             )
             return
-        }
-
-        if (stateValue.emailUsername.value != "") {
-            stateValue = stateValue.copy(
-                emailUsername = stateValue.emailUsername.copy(
-                    value = "${stateValue.emailUsername.value}@igram.app"
-                )
-            )
         }
 
         viewModelScope.launch {

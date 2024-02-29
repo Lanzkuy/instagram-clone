@@ -15,12 +15,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -30,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lans.instagram_clone.R
-import com.lans.instagram_clone.data.Resource
+import com.lans.instagram_clone.presentation.component.Alert
 import com.lans.instagram_clone.presentation.component.LoadingButton
 import com.lans.instagram_clone.presentation.component.ValidableTextField
 import com.lans.instagram_clone.presentation.theme.RoundedSmall
@@ -43,7 +46,41 @@ fun LoginScreen(
     navigateToRegister: () -> Unit,
     navigateToHome: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState(initial = LoginUIState())
+    val state by viewModel.state
+    var showAlert by remember {
+        mutableStateOf(Pair(false, ""))
+    }
+
+    if (showAlert.first) {
+        Alert(
+            title = "Error",
+            description = showAlert.second,
+            onDismissRequest = {
+                showAlert = showAlert.copy(first = false)
+            },
+            onConfirmClick = {
+                Button(onClick = {
+                    showAlert = showAlert.copy(first = false)
+                }) {
+                    Text(text = "Close")
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(key1 = state.loginResponse, key2 = state.error) {
+        val response = state.loginResponse
+        val error = state.error
+
+        if (response != null) {
+            navigateToHome.invoke()
+        }
+
+        if (error.isNotBlank()) {
+            showAlert = Pair(true, error)
+            state.error = ""
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -77,7 +114,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 input = state.emailUsername,
-                label = stringResource(R.string.email_or_username),
+                label = stringResource(R.string.email),
                 onValueChange = {
                     viewModel.onEvent(LoginUIEvent.EmailUsernameChanged(it))
                 }
@@ -87,6 +124,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 input = state.password,
+                isPassword = true,
                 label = stringResource(R.string.password),
                 onValueChange = {
                     viewModel.onEvent(LoginUIEvent.PasswordChanged(it))

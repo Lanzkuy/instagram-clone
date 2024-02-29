@@ -9,6 +9,5 @@ data class LoginUIState(
     var password: InputWrapper = InputWrapper(),
     var isLoading: Boolean = false,
     var error: String = "",
-    var loginResponse: FirebaseUser? = null,
-    var userResponse: User? = null
+    var loginResponse: FirebaseUser? = null
 )

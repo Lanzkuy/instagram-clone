@@ -1,5 +1,7 @@
 package com.lans.instagram_clone.presentation.screen.register
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lans.instagram_clone.data.Resource
@@ -8,8 +10,6 @@ import com.lans.instagram_clone.domain.usecase.CreateUserUseCase
 import com.lans.instagram_clone.domain.usecase.RegisterUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidatorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +20,8 @@ class RegisterViewModel @Inject constructor(
     private val validatorUseCase: ValidatorUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(RegisterUIState())
-    val state: Flow<RegisterUIState> get() = _state
+    private val _state = mutableStateOf(RegisterUIState())
+    val state: State<RegisterUIState> get() = _state
 
     fun onEvent(event: RegisterUIEvent) {
         when (event) {

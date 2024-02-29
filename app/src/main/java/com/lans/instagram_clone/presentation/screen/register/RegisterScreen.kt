@@ -1,6 +1,5 @@
 package com.lans.instagram_clone.presentation.screen.register
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,15 +16,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lans.instagram_clone.R
+import com.lans.instagram_clone.presentation.component.Alert
 import com.lans.instagram_clone.presentation.component.LoadingButton
 import com.lans.instagram_clone.presentation.component.ValidableTextField
 import com.lans.instagram_clone.presentation.theme.RoundedSmall
@@ -48,8 +50,27 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
     navigateToLogin: () -> Unit
 ) {
-    val context = LocalContext.current
-    val state by viewModel.state.collectAsState(initial = RegisterUIState())
+    val state by viewModel.state
+    var showAlert by remember {
+        mutableStateOf(Pair(false, ""))
+    }
+
+    if (showAlert.first) {
+        Alert(
+            title = "Error",
+            description = showAlert.second,
+            onDismissRequest = {
+                showAlert = showAlert.copy(first = false)
+            },
+            onConfirmClick = {
+                Button(onClick = {
+                    showAlert = showAlert.copy(first = false)
+                }) {
+                    Text(text = "Close")
+                }
+            }
+        )
+    }
 
     LaunchedEffect(state.registerResponse) {
         val response = state.registerResponse
@@ -60,7 +81,7 @@ fun RegisterScreen(
         }
 
         if (error.isNotBlank()) {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            showAlert = Pair(true, error)
             state.error = ""
         }
     }
@@ -74,7 +95,7 @@ fun RegisterScreen(
         }
 
         if (error.isNotBlank()) {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            showAlert = Pair(true, error)
             state.error = ""
         }
     }
@@ -147,6 +168,7 @@ fun RegisterScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     input = state.password,
+                    isPassword = true,
                     label = stringResource(R.string.password),
                     onValueChange = {
                         viewModel.onEvent(RegisterUIEvent.PasswordChanged(it))

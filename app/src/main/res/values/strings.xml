@@ -4,7 +4,6 @@
     <string name="fullname">Fullname</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="email_or_username">Email or username</string>
     <string name="log_in">Log In</string>
     <string name="register">Register</string>
     <string name="forgot_your_login_details">Forgot your login details?</string>

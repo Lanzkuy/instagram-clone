@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.top_navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.textfield
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons

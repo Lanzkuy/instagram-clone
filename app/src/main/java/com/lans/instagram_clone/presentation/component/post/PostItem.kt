@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.post
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.lans.instagram_clone.R
+import com.lans.instagram_clone.presentation.component.profile_picture.RoundedProfilePicture
 
 @Composable
 fun PostItem(

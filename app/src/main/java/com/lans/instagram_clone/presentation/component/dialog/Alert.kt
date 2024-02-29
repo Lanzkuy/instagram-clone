@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.dialog
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll

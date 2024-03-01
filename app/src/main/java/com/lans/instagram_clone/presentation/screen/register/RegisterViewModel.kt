@@ -66,10 +66,10 @@ class RegisterViewModel @Inject constructor(
     fun register() {
         val stateValue = _state.value
 
-        val emailResult = validatorUseCase.email.invoke(stateValue.email.value)
-        val fullnameResult = validatorUseCase.fullname.invoke(stateValue.fullname.value)
-        val usernameResult = validatorUseCase.username.invoke(stateValue.username.value)
-        val passwordResult = validatorUseCase.password.invoke(stateValue.password.value)
+        val emailResult = validatorUseCase.email.execute(stateValue.email.value)
+        val fullnameResult = validatorUseCase.fullname.execute(stateValue.fullname.value)
+        val usernameResult = validatorUseCase.username.execute(stateValue.username.value)
+        val passwordResult = validatorUseCase.password.execute(stateValue.password.value)
 
         val hasErrors = listOf(
             emailResult,

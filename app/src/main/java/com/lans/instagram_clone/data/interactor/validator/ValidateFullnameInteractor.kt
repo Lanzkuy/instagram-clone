@@ -4,7 +4,7 @@ import com.lans.instagram_clone.domain.model.ValidationResult
 import com.lans.instagram_clone.domain.usecase.validation.ValidateFullnameUseCase
 
 class ValidateFullnameInteractor : ValidateFullnameUseCase {
-    override fun invoke(input: String): ValidationResult {
+    override fun execute(input: String): ValidationResult {
         if (input.isBlank()) {
             return ValidationResult(
                 isSuccess = false,

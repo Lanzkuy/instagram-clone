@@ -5,7 +5,7 @@ import com.lans.instagram_clone.domain.usecase.validation.ValidatePasswordUseCas
 import java.util.regex.Pattern
 
 class ValidatePasswordInteractor : ValidatePasswordUseCase {
-    override fun invoke(input: String): ValidationResult {
+    override fun execute(input: String): ValidationResult {
         if (input.isBlank()) {
             return ValidationResult(
                 isSuccess = false,

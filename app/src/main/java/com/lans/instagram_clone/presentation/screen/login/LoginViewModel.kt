@@ -8,8 +8,6 @@ import com.lans.instagram_clone.data.Resource
 import com.lans.instagram_clone.domain.usecase.LoginWithEmailUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidatorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,10 +45,10 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login() {
-        var stateValue = _state.value
+        val stateValue = _state.value
 
-        val emailOrUsernameResult = validatorUseCase.email.invoke(stateValue.emailUsername.value)
-        val passwordResult = validatorUseCase.password.invoke(stateValue.password.value)
+        val emailOrUsernameResult = validatorUseCase.email.execute(stateValue.emailUsername.value)
+        val passwordResult = validatorUseCase.password.execute(stateValue.password.value)
 
         val hasErrors = listOf(
             emailOrUsernameResult,

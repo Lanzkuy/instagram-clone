@@ -8,6 +8,7 @@ import com.lans.instagram_clone.data.interactor.CreateUserInteractor
 import com.lans.instagram_clone.data.interactor.IsAuthenticatedInteractor
 import com.lans.instagram_clone.data.interactor.LoginWithEmailInteractor
 import com.lans.instagram_clone.data.interactor.RegisterInteractor
+import com.lans.instagram_clone.data.interactor.StoreUserCredentialsInteractor
 import com.lans.instagram_clone.data.interactor.validator.ValidateEmailInteractor
 import com.lans.instagram_clone.data.interactor.validator.ValidateFullnameInteractor
 import com.lans.instagram_clone.data.interactor.validator.ValidatePasswordInteractor
@@ -24,6 +25,7 @@ import com.lans.instagram_clone.domain.usecase.CreateUserUseCase
 import com.lans.instagram_clone.domain.usecase.IsAuthenticatedUseCase
 import com.lans.instagram_clone.domain.usecase.LoginWithEmailUseCase
 import com.lans.instagram_clone.domain.usecase.RegisterUseCase
+import com.lans.instagram_clone.domain.usecase.StoreUserCredentialsUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidateEmailUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidateFullnameUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidatePasswordUseCase
@@ -126,6 +128,16 @@ object AppModule {
     ): CreateUserUseCase {
         return CreateUserInteractor(
             userRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideStoreUserCredentialsUseCase(
+        datastoreRepository: IDataStoreRepository
+    ): StoreUserCredentialsUseCase {
+        return StoreUserCredentialsInteractor(
+            datastoreRepository
         )
     }
 

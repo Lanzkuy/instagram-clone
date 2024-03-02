@@ -30,9 +30,7 @@ class AuthRepository @Inject constructor(
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
     }
 
-    override suspend fun logout(): Flow<Unit> {
-        return flow {
-            emit(firebaseAuth.signOut())
-        }
+    override suspend fun logout() {
+        firebaseAuth.signOut()
     }
 }

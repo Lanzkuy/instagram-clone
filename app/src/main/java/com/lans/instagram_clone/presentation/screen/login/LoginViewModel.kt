@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lans.instagram_clone.data.Resource
 import com.lans.instagram_clone.domain.usecase.LoginWithEmailUseCase
+import com.lans.instagram_clone.domain.usecase.StoreUserCredentialsUseCase
 import com.lans.instagram_clone.domain.usecase.validation.ValidatorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginWithEmailUseCase: LoginWithEmailUseCase,
+    private val storeUserCredentialsUseCase: StoreUserCredentialsUseCase,
     private val validatorUseCase: ValidatorUseCase
 ) : ViewModel() {
 
@@ -78,6 +80,7 @@ class LoginViewModel @Inject constructor(
                             loginResponse = response.data,
                             isLoading = false
                         )
+                        storeUserCredentialsUseCase.execute(response.data!!.uid)
                     }
 
                     is Resource.Error -> {

@@ -10,5 +10,5 @@ interface IAuthRepository {
     suspend fun isAuthenticated(): Flow<Boolean>
     suspend fun loginWithEmail(email: String, password: String): Task<AuthResult>
     suspend fun register(email: String, password: String): Task<AuthResult>
-    suspend fun logout(): Flow<Unit>
+    suspend fun logout()
 }

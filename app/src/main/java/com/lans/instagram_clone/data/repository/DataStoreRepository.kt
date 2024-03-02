@@ -20,9 +20,7 @@ class DataStoreRepository @Inject constructor(
         }
     }
 
-    override suspend fun clear(): Flow<Unit> {
-        return flow {
-            emit(dataStoreManager.clear())
-        }
+    override suspend fun clear() {
+        dataStoreManager.clear()
     }
 }

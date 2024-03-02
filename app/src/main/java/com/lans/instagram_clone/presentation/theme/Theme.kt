@@ -11,7 +11,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -20,14 +19,18 @@ import androidx.core.view.WindowCompat
 
 private val darkColor = darkColorScheme(
     primary = PrimaryVariant,
+    onPrimary = White,
     secondary = SecondaryVariant,
-    tertiary = TertiaryVariant
+    tertiary = TertiaryVariant,
+    background = Black,
 )
 
 private val lightColor = lightColorScheme(
     primary = Primary,
+    onPrimary = White,
     secondary = Secondary,
-    tertiary = Tertiary
+    tertiary = Tertiary,
+    background = White
 )
 
 @Composable

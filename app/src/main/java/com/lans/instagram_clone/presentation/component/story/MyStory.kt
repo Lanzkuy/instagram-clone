@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.story
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

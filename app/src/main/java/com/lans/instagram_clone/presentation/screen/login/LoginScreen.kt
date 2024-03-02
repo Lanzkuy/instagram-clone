@@ -15,38 +15,72 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.lans.instagram_clone.R
-import com.lans.instagram_clone.presentation.component.LoadingButton
-import com.lans.instagram_clone.presentation.component.ValidableTextField
-import com.lans.instagram_clone.presentation.navigation.Route
+import com.lans.instagram_clone.presentation.component.dialog.Alert
+import com.lans.instagram_clone.presentation.component.button.LoadingButton
+import com.lans.instagram_clone.presentation.component.textfield.ValidableTextField
 import com.lans.instagram_clone.presentation.theme.RoundedSmall
 import com.lans.instagram_clone.presentation.theme.Tertiary
 import com.lans.instagram_clone.presentation.theme.TertiaryVariant
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    navigateToRegister: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
-    val emailUsername = state.emailUsername
-    val password = state.password
+    val state by viewModel.state
+    var showAlert by remember {
+        mutableStateOf(Pair(false, ""))
+    }
+
+    if (showAlert.first) {
+        Alert(
+            title = "Error",
+            description = showAlert.second,
+            onDismissRequest = {
+                showAlert = showAlert.copy(first = false)
+            },
+            onConfirmClick = {
+                Button(onClick = {
+                    showAlert = showAlert.copy(first = false)
+                }) {
+                    Text(text = "Close")
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(key1 = state.loginResponse, key2 = state.error) {
+        val response = state.loginResponse
+        val error = state.error
+
+        if (response != null) {
+            navigateToHome.invoke()
+        }
+
+        if (error.isNotBlank()) {
+            showAlert = Pair(true, error)
+            state.error = ""
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -78,23 +112,22 @@ fun LoginScreen(
             ValidableTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
                     .padding(horizontal = 16.dp),
-                input = emailUsername,
-                label = stringResource(R.string.email_or_username),
+                input = state.emailUsername,
+                label = stringResource(R.string.email),
                 onValueChange = {
-                    viewModel.onEvent(LoginUIEvent.EmailUsernameChanged(emailUsername.value))
+                    viewModel.onEvent(LoginUIEvent.EmailUsernameChanged(it))
                 }
             )
             ValidableTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
                     .padding(horizontal = 16.dp),
-                input = password,
+                input = state.password,
+                isPassword = true,
                 label = stringResource(R.string.password),
                 onValueChange = {
-                    viewModel.onEvent(LoginUIEvent.PasswordChanged(password.value))
+                    viewModel.onEvent(LoginUIEvent.PasswordChanged(it))
                 }
             )
             Row(
@@ -130,9 +163,9 @@ fun LoginScreen(
                     .padding(horizontal = 16.dp, vertical = 24.dp),
                 text = stringResource(R.string.log_in),
                 shape = RoundedSmall,
-                isLoading = false,
+                isLoading = state.isLoading,
                 onClick = {
-                    navController.navigate(Route.HomeScreen.route)
+                    viewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                 }
             )
         }
@@ -158,7 +191,7 @@ fun LoginScreen(
                 Text(
                     modifier = Modifier
                         .clickable {
-                            navController.navigate(Route.RegisterScreen.route)
+                            navigateToRegister.invoke()
                         },
                     text = stringResource(R.string.register),
                     color = if (isSystemInDarkTheme()) {
@@ -172,13 +205,4 @@ fun LoginScreen(
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun Preview() {
-    LoginScreen(rememberNavController())
 }

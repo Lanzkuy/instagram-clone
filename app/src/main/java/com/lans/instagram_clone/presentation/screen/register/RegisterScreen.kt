@@ -16,13 +16,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,28 +34,71 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.lans.instagram_clone.R
-import com.lans.instagram_clone.presentation.component.ValidableTextField
-import com.lans.instagram_clone.presentation.navigation.Route
+import com.lans.instagram_clone.presentation.component.dialog.Alert
+import com.lans.instagram_clone.presentation.component.button.LoadingButton
+import com.lans.instagram_clone.presentation.component.textfield.ValidableTextField
+import com.lans.instagram_clone.presentation.theme.RoundedSmall
 import com.lans.instagram_clone.presentation.theme.Tertiary
 import com.lans.instagram_clone.presentation.theme.TertiaryVariant
 
 @Composable
 fun RegisterScreen(
-    navController: NavController,
-    viewModel: RegisterViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = hiltViewModel(),
+    navigateToLogin: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
-    val email = state.email
-    val fullname = state.fullname
-    val username = state.username
-    val password = state.password
+    val state by viewModel.state
+    var showAlert by remember {
+        mutableStateOf(Pair(false, ""))
+    }
+
+    if (showAlert.first) {
+        Alert(
+            title = "Error",
+            description = showAlert.second,
+            onDismissRequest = {
+                showAlert = showAlert.copy(first = false)
+            },
+            onConfirmClick = {
+                Button(onClick = {
+                    showAlert = showAlert.copy(first = false)
+                }) {
+                    Text(text = "Close")
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(state.registerResponse) {
+        val response = state.registerResponse
+        val error = state.error
+
+        if (response != null) {
+            viewModel.createUser(response.uid)
+        }
+
+        if (error.isNotBlank()) {
+            showAlert = Pair(true, error)
+            state.error = ""
+        }
+    }
+
+    LaunchedEffect(state.createUserResponse) {
+        val response = state.createUserResponse
+        val error = state.error
+
+        if (response != null) {
+            navigateToLogin.invoke()
+        }
+
+        if (error.isNotBlank()) {
+            showAlert = Pair(true, error)
+            state.error = ""
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -76,7 +121,11 @@ fun RegisterScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .size(90.dp),
-                    painter = painterResource(R.drawable.img_instagram_text_black),
+                    painter = if (isSystemInDarkTheme()) {
+                        painterResource(R.drawable.img_instagram_text_white)
+                    } else {
+                        painterResource(R.drawable.img_instagram_text_black)
+                    },
                     contentDescription = stringResource(R.string.content_description),
                 )
                 Spacer(
@@ -87,58 +136,55 @@ fun RegisterScreen(
                 ValidableTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    input = email,
+                    input = state.email,
                     label = stringResource(R.string.email),
                     onValueChange = {
-                        viewModel.onEvent(RegisterUIEvent.EmailChanged(email.value))
+                        viewModel.onEvent(RegisterUIEvent.EmailChanged(it))
                     }
                 )
                 ValidableTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    input = fullname,
+                    input = state.fullname,
                     label = stringResource(R.string.fullname),
                     onValueChange = {
-                        viewModel.onEvent(RegisterUIEvent.FullnameChanged(fullname.value))
+                        viewModel.onEvent(RegisterUIEvent.FullnameChanged(it))
                     }
                 )
                 ValidableTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    input = username,
+                    input = state.username,
                     label = stringResource(R.string.username),
                     onValueChange = {
-                        viewModel.onEvent(RegisterUIEvent.UsernameChanged(username.value))
+                        viewModel.onEvent(RegisterUIEvent.UsernameChanged(it))
                     }
                 )
                 ValidableTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    input = password,
+                    input = state.password,
+                    isPassword = true,
                     label = stringResource(R.string.password),
                     onValueChange = {
-                        viewModel.onEvent(RegisterUIEvent.PasswordChanged(password.value))
+                        viewModel.onEvent(RegisterUIEvent.PasswordChanged(it))
                     }
                 )
-                Button(
+                LoadingButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 24.dp, 16.dp, 16.dp),
-                    shape = RoundedCornerShape(4.dp),
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    text = stringResource(R.string.register),
+                    shape = RoundedSmall,
+                    isLoading = state.isLoading,
                     onClick = {
-
+                        viewModel.onEvent(RegisterUIEvent.RegisterButtonClicked)
                     }
-                ) {
-                    Text(stringResource(R.string.register))
-                }
+                )
                 Text(
                     modifier = Modifier
                         .width(280.dp),
@@ -199,7 +245,7 @@ fun RegisterScreen(
                 Text(
                     modifier = Modifier
                         .clickable {
-                            navController.navigate(Route.LoginScreen.route)
+                            navigateToLogin.invoke()
                         },
                     text = stringResource(R.string.log_in),
                     color = if (isSystemInDarkTheme()) {
@@ -213,13 +259,4 @@ fun RegisterScreen(
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun Preview() {
-    RegisterScreen(rememberNavController())
 }

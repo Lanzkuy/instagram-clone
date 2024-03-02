@@ -1,4 +1,4 @@
-package com.lans.instagram_clone.presentation.component
+package com.lans.instagram_clone.presentation.component.profile_picture
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size

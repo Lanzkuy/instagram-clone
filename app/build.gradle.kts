@@ -71,6 +71,7 @@ android {
 
 dependencies {
     implementation(libs.core.ktx)
+    implementation(libs.core.splashscreen)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -78,9 +79,14 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.coil.compose)
     implementation(libs.legacy.support.v4)
     implementation(libs.bundles.dagger.hilt)
+    implementation(libs.preferences.datastore)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.livedata.ktx)

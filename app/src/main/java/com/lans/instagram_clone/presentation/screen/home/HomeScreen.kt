@@ -3,6 +3,7 @@ package com.lans.instagram_clone.presentation.screen.home
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,10 +26,7 @@ import com.lans.instagram_clone.utils.bottomBorder
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToHome: () -> Unit,
-    navigateToSearch: () -> Unit,
-    navigateToLikes: () -> Unit,
-    navigateToProfile: () -> Unit
+    innerPadding: PaddingValues
 ) {
     val img1 =
         "https://yt3.googleusercontent.com/ytc/AIf8zZTiK5RvLXMDN039g8slQDcm--od1i1y6wwxqzF45g=s900-c-k-c0x00ffffff-no-rj"
@@ -37,95 +35,85 @@ fun HomeScreen(
     val squirrel =
         "https://nypost.com/wp-content/uploads/sites/2/2020/10/squirrel1.jpeg?quality=75&strip=all"
 
-    Scaffold(
-        topBar = { HomeAppBar() },
-        bottomBar = { BottomNavigationBar(
-            navigateToHome,
-            navigateToSearch,
-            navigateToLikes,
-            navigateToProfile
-        ) }
-    ) { paddingValues ->
+    Column(
+        modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .bottomBorder(0.5.dp, Color.LightGray)
+                .padding(
+                    top = 6.dp,
+                    bottom = 16.dp
+                )
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            MyStory(
+                modifier = Modifier.padding(
+                    start = 20.dp
+                ),
+                imgUrl = img1
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+            StoryItem(
+                imgUrl = img2,
+                name = "Risdu"
+            )
+        }
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .bottomBorder(0.5.dp, Color.LightGray)
-                    .padding(
-                        top = 6.dp,
-                        bottom = 16.dp
-                    )
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                MyStory(
-                    modifier = Modifier.padding(
-                        start = 20.dp
-                    ),
-                    imgUrl = img1
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-                StoryItem(
-                    imgUrl = img2,
-                    name = "Risdu"
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                PostItem(
-                    profileImgUrl = img2,
-                    profileUsername = "Risdu",
-                    postImgUrl = squirrel,
-                    totalLikes = 1423,
-                    postDescription = "Just a squirrel bring a lot of nuts",
-                    totalComments = 108,
-                    postDate = "28 November 2023"
-                )
-                PostItem(
-                    profileImgUrl = img2,
-                    profileUsername = "Risdu",
-                    postImgUrl = squirrel,
-                    totalLikes = 1423,
-                    postDescription = "Just a squirrel bring a lot of nuts",
-                    totalComments = 108,
-                    postDate = "28 November 2023"
-                )
-                PostItem(
-                    profileImgUrl = img2,
-                    profileUsername = "Risdu",
-                    postImgUrl = squirrel,
-                    totalLikes = 1423,
-                    postDescription = "Just a squirrel bring a lot of nuts",
-                    totalComments = 108,
-                    postDate = "28 November 2023"
-                )
-            }
+            PostItem(
+                profileImgUrl = img2,
+                profileUsername = "Risdu",
+                postImgUrl = squirrel,
+                totalLikes = 1423,
+                postDescription = "Just a squirrel bring a lot of nuts",
+                totalComments = 108,
+                postDate = "28 November 2023"
+            )
+            PostItem(
+                profileImgUrl = img2,
+                profileUsername = "Risdu",
+                postImgUrl = squirrel,
+                totalLikes = 1423,
+                postDescription = "Just a squirrel bring a lot of nuts",
+                totalComments = 108,
+                postDate = "28 November 2023"
+            )
+            PostItem(
+                profileImgUrl = img2,
+                profileUsername = "Risdu",
+                postImgUrl = squirrel,
+                totalLikes = 1423,
+                postDescription = "Just a squirrel bring a lot of nuts",
+                totalComments = 108,
+                postDate = "28 November 2023"
+            )
         }
     }
 }

@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.lans.instagram_clone.presentation.navigation.Navigation
-import com.lans.instagram_clone.presentation.navigation.Route
+import com.lans.instagram_clone.presentation.navigation.NavGraph
+import com.lans.instagram_clone.presentation.navigation.graph.RootNavGraph
 import com.lans.instagram_clone.presentation.theme.InstagramCloneTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             viewModel.isAuthenticated.collect { status ->
                 status?.let {
-                    val startDestination = if (status) Route.HomeScreen else Route.LoginScreen
+                    val startDestination = if (status) NavGraph.MainGraph else NavGraph.AuthGraph
                     setContent {
                         InstagramCloneTheme(dynamicColor = false) {
                             InstagramCloneApp(startDestination = startDestination)
@@ -57,12 +57,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InstagramCloneApp(
-    startDestination: Route,
+    startDestination: String,
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Navigation(startDestination = startDestination)
+            RootNavGraph(
+            startDestination = startDestination
+        )
     }
 }
